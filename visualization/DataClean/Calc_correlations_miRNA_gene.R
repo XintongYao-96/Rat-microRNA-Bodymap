@@ -2,7 +2,7 @@ library(data.table)
 library(magrittr)
 
 dt.cor.result <- readRDS('./RDS/Corr_allType.rds')
-exprMat.miRNA <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprMat.miRNA <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 exprMat.mRNA <- readRDS('./RDS/exprMat/exprMat_mRNA_log2FPKM.rds')
 
 
@@ -15,7 +15,7 @@ corr.miRNA.mRNA <- corr.mat[rownames(exprMat.miRNA), rownames(exprMat.mRNA)]
 
 dt.melt.corr <- melt(corr.miRNA.mRNA)
 dt.melt.corr$pair <- paste0(dt.melt.corr$ID.Gene.A, dt.melt.corr$ID.Gene.B)
-setnames(dt.melt.corr, c('ID.Gene.A', 'ID.Gene.B', 'corr'))
+# setnames(dt.melt.corr, c('ID.Gene.A', 'ID.Gene.B', 'corr'))
 dt.melt.corr <- data.table(dt.melt.corr)
 
 

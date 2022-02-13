@@ -1,3 +1,4 @@
+rm(list = ls())
 library(data.table)
 library(magrittr)
 library(pheatmap)
@@ -5,7 +6,7 @@ library(RColorBrewer)
 library(ggpubr)
 
 dt.meta <- readRDS('./RDS/metadata.rds')
-dt.exprmat <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+dt.exprmat <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 
 dt.cor.sample <- cor(dt.exprmat, method = 'pearson')
 dt.melt.cor <- melt(dt.cor.sample)%>%setnames(., c('ID.SampleA', 'ID.SampleB', 'cor'))%>%as.data.table()
@@ -58,7 +59,7 @@ sd.rep <- sd(dt.melt.cor[Biological.Group.Type == 'Biological_Replicate']$cor)
 
 
 mean.diff <- mean(dt.melt.cor[Biological.Group.Type == 'Different_Sample']$cor)
-sd.rep <- sd(dt.melt.cor[Biological.Group.Type == 'Different_Sample']$cor)
+sd.diff <- sd(dt.melt.cor[Biological.Group.Type == 'Different_Sample']$cor)
 
 t.test(dt.melt.cor[Biological.Group.Type == 'Biological_Replicate']$cor,
        dt.melt.cor[Biological.Group.Type == 'Different_Sample']$cor)

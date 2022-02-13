@@ -11,13 +11,12 @@ dt.DEGresult <- readRDS('./RDS/DEG_OrganPerAge_combine.rds')
 cutOff=4
 dt.miRNAs.organEnriched.FC4 <- dt.DEGresult[adj.P.Val<0.05][logFC>(log2(cutOff))][,.N,by=.(Organ.B,ID.gene)][N==40]
 setnames(dt.miRNAs.organEnriched.FC4,'Organ.B','Organ')
-saveRDS(dt.miRNAs.organEnriched.FC4 , './RDS/dt.miRNAs.organEnriched.rds')
+# saveRDS(dt.miRNAs.organEnriched.FC4 , './RDS/dt.miRNAs.organEnriched.rds')
 
 dt.miRNAs.organEnriched <- dt.miRNAs.organEnriched.FC4
-saveRDS(dt.miRNAs.organEnriched,'./RDS/dt.miRNAs.organEnriched.rds')
+# saveRDS(dt.miRNAs.organEnriched,'./RDS/dt.miRNAs.organEnriched.rds')
 
 
-grep('chr', dt.miRNAs.organEnriched$ID.gene, value = T)
 
 # Plot --------------------------------------------------------------------
 
@@ -32,7 +31,7 @@ dt.miRNAs.organEnriched$Organ <- factor(dt.miRNAs.organEnriched$Organ,levels=org
 ID.miRNAs.organEnriched.orderByOrgan <- dt.miRNAs.organEnriched[order(Organ,ID.gene)]$ID.gene
 
 # Set col orders
-exprMat.miRNA.logCPM <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprMat.miRNA.logCPM <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 IDs.sample.forPlot <- colnames(exprMat.miRNA.logCPM)
 dt.meta$Organ <- factor(dt.meta$Organ,levels=organs.all.orderByN)
 IDs.sample.forPlot.orderByOrgan <- dt.meta[IDs.sample.forPlot][order(Organ,Age,Sex,BioRep)]$ID.sample

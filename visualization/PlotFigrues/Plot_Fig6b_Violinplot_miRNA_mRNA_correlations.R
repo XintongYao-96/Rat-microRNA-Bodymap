@@ -1,3 +1,4 @@
+rm(list = ls())
 library(ggplot2)
 library(magrittr)
 library(data.table)
@@ -21,7 +22,7 @@ ggplot(dt.cor.result, aes(x=Type, y = corr))+
   theme(axis.text.y=element_text(size=18, face='bold',color = 'black'),
         axis.text.x=element_text(size=18, face='bold',color = 'black'),
         axis.title.y=element_text(size=18,face='bold', color = 'black'),
-        legend.title=element_text(size=18,face='bold', color = 'black'),
+        legend.title=element_text(size=18,face='bold', color = 'black ·'),
         legend.text=element_text(size=18,face='bold', color = 'black'),
         legend.position = 'top')
 
@@ -33,7 +34,5 @@ ggsave('./charts/Fig6b_Correlation_violin.pdf', width = 12, height = 6.5)
 dt.cor.result$Type%>%unique()
 mean(dt.cor.result[Type=="miRNA-all gene"]$corr)
 sd(dt.cor.result[Type=="miRNA-all gene"]$corr)
-mean(dt.cor.result[Type=="miRNA-host gene (same)"]$corr)
-sd(dt.cor.result[Type=="miRNA-host gene (same)"]$corr)
-mean(dt.cor.result[Type=="miRNA-host gene (oppo)"]$corr)
-sd(dt.cor.result[Type=="miRNA-host gene (oppo)"]$corr)
+dim(dt.cor.result[Type=='miRNA-host gene (same)'])
+dim(dt.cor.result[Type=='miRNA-host gene (oppo)'])

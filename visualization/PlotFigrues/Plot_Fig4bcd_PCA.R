@@ -8,7 +8,7 @@ source('./scripts/PlotFigures/parameters.R')
 
 
 dt.meta <- readRDS('./RDS/metadata.rds')
-exprMat.forPCA <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprMat.forPCA <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 dt.meta.forPCA <- dt.meta[ID.sample%in%colnames(exprMat.forPCA)]
 
 
@@ -20,7 +20,7 @@ pcs$ID.sample <- rownames(pcs)
 dim(pcs)
 Mat.PC.loadings <- pca_prcomp$rotation
 
-dt.meta.pcs <- merge(dt.meta, pcs, by='ID.sample', by.all=T)%>%as.data.table()
+dt.meta.pcs <- merge(dt.meta, pcs, by ='ID.sample', by.all=T)%>%as.data.table()
 
 saveRDS(dt.meta.pcs, './RDS/meta_PCS.rds')
 saveRDS(Mat.PC.loadings, './RDS/PC_loadings.rds')
@@ -95,3 +95,20 @@ ggsave('./charts/Fig4c.PCA_PC23.pdf', width = 6, height =6)
           legend.text = element_text(size=16,color='black'))
 ggsave('./charts/Fig4d.PCA_PC13.pdf', width = 6, height = 6)
   
+
+# test --------------------------------------------------------------------
+
+dt.meta.pcs$size = 1
+dt.meta.pcs[Colnames.miRNA=='lane5_Brn_F_100_4_1']$size = 2
+ggplot(dt.meta.pcs, aes(x=PC1, y=PC3))+
+  geom_point(aes(color=Organ, shape = Age, size = size))+
+  scale_color_manual(values = colors.organ)+
+  theme_bw()+
+  labs(x=sprintf("PC1 (%.1f%%)", summary(pca_prcomp)$importance[2,1]*100),
+       y=sprintf("PC3 (%.1f%%)", summary(pca_prcomp)$importance[2,2]*100,1),
+       color='Sample')+
+  theme(legend.position = 'none',
+        axis.text = element_text(size=16,color='black'),
+        axis.title = element_text(size=16),
+        legend.title = element_text(size=16),
+        legend.text = element_text(size=16,color='black'))

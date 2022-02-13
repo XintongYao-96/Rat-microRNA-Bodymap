@@ -1,12 +1,11 @@
-rm(list = ls())
-library(plot3D)
 
-PCAresult <- readRDS("./RDS/meta_PCS.rds")
+setwd("~/Downloads/Rat Bodymap/")
+PCAresult <- readRDS("./data/meta_PCS.rds")
 # Dependent libraries
 library(data.table)
 library(RColorBrewer)
 library(ggplot2)
-dt.meta <- readRDS('./RDS/metadata.rds')
+dt.meta <- readRDS('./data/Rat_SciData/data/metadata.rds')
 # Set colors
 organs <- unique(dt.meta$Organ)
 colors.organ <- colorRampPalette(brewer.pal(9,'Set1'))(11)
@@ -65,7 +64,6 @@ for (i in 2:length(list)) {
             col = color_1, pch = shape_1,groups = PCAresult_type$Organ,add = TRUE)
   print(i)
 }
-
 # 
 # 
 # 

@@ -3,19 +3,20 @@ library(data.table)
 library(magrittr)
 library(edgeR)
 
-exprMat.raw <- readRDS('./RDS/exprMat/exprMat_rawcount_r1033c320.rds')
+exprMat.raw <- readRDS('./RDS/exprMat/exprMat_rawcount_r745c320.rds')
 
 
 # miRNA filteration -------------------------------------------------------
 # drop constently low-expressed miRNAs (low-expressed: count<20 in 320 samples)
 
 IDs.miRNA.all <- rownames(exprMat.raw)
-IDs.miRNA.lowExpr <- rownames(exprMat.raw[apply(exprMat.raw,1,sum)==0,])
-IDs.miRNA.passFilt <- setdiff(IDs.miRNA.all,IDs.miRNA.lowExpr)
 
+IDs.miRNA.lowExpr <- rownames(exprMat.raw[apply(exprMat.raw,1,sum)<=320,])
+IDs.miRNA.passFilt <- setdiff(IDs.miRNA.all,IDs.miRNA.lowExpr)
+length(IDs.miRNA.passFilt)
 exprMat.miRFlit <- exprMat.raw[IDs.miRNA.passFilt,]
 
-count.miRNA.merge <- rowSums(exprMat.miRFlit)
+# count.miRNA.merge <- rowSums(exprMat.miRFlit)
 
 # grep('chr', IDs.miRNA.passFilt)%>%length()
 
@@ -23,13 +24,12 @@ count.miRNA.merge <- rowSums(exprMat.miRFlit)
 # ID transfer -------------------------------------------------------------
 
 dt.meta <- readRDS('RDS/metadata.rds')
-setkey(dt.meta,Colnames.miRNA)
 
 
 # Sample filteration ------------------------------------------------------
 # Drop 2 samples fail to cluster with the samples from given organs
 IDs.sample.all <- colnames(exprMat.miRFlit)
-IDs.sample.failedCluster <- c('Spl_F_104_4','Brn_M_006_3')
+IDs.sample.failedCluster <- c("Brn_M_006_3", "Spl_F_104_4")
 IDs.sample.passFilt <- setdiff(IDs.sample.all,IDs.sample.failedCluster)
 
 exprMat.miRFilt.sampleFilt <- exprMat.miRFlit[,IDs.sample.passFilt]
@@ -47,12 +47,12 @@ exprMat.logCPM <- cpm(dge, normalized.lib.sizes = TRUE, log=TRUE, prior.count = 
 
 # save --------------------------------------------------------------------
 write.table(exprMat.raw, './tables/GSE172269_RatBodyMap_miRNA_RawCount.txt', quote = F, sep = '\t')
-saveRDS(exprMat.miRFilt.sampleFilt, './RDS/exprMat/exprMat_rawcount_r994c318.rds')
-saveRDS(exprMat.cpm, './RDS/exprMat/exprMat_CPM_r994c318.rds')
-saveRDS(exprMat.logCPM, './RDS/exprMat/exprMat_logCPM_r994c318.rds')
+saveRDS(exprMat.miRFilt.sampleFilt, './RDS/exprMat/exprMat_rawcount_r604c318.rds')
+saveRDS(exprMat.cpm, './RDS/exprMat/exprMat_CPM_r604c318.rds')
+saveRDS(exprMat.logCPM, './RDS/exprMat/exprMat_logCPM_r604c318.rds')
 
-expmat.geo <- fread('./tables/GSE172269_RatBodyMap_miRNA_RawCount.txt')
-# 
+# expmat.geo <- fread('./tables/GSE172269_RatBodyMap_miRNA_RawCount.txt')
+# # 
 # # Test HCA ---------------------------------------------------------------------
 # # Perform 320 samples (no-filter) HCA
 # 
@@ -84,3 +84,4 @@ pheatmap(exprMat.forHCA,
                     seq(3,17,0.5)),
          annotation_col = annot_col, annotation_colors = annot_color,
          annotation_names_col=FALSE)
+

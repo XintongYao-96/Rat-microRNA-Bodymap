@@ -1,3 +1,4 @@
+rm(list = ls())
 library(data.table)
 library(magrittr)
 library(ggplot2)
@@ -5,10 +6,10 @@ library(RColorBrewer)
 library(GGally)
 
 dt.meta <- readRDS('./RDS/metadata.rds')
-exprmat <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprmat <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 
 
-lst.sample.forPlot <- dt.meta[Organ=='Adr' | Organ=='Brn' ][Age==6][Sex=='F']$ID.sample
+lst.sample.forPlot <- dt.meta[Organ=='Adr' | Organ=='Brn' ][Age==6][Sex=='F']$Colnames.miRNA
 exprmat.forPlot <- exprmat[, lst.sample.forPlot]
 
 

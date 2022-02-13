@@ -3,27 +3,17 @@ rm(list = ls())
 library(pheatmap)
 source("./scripts/PlotFigures/parameters.R")
 dt.meta <- readRDS('./RDS/metadata.rds')
-exprMat.forHCA <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprMat.forHCA <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 
 
 
 # Heatmap -----------------------------------------------------------------
 
-IDs.miRNA <- rownames(exprMat.forHCA)
-dt.miRNA.annot <- data.table(IDs.miRNA=IDs.miRNA,
-                             miRNA.Type = 'Known')
 
-
-dt.miRNA.annot[grep('chr', IDs.miRNA),]$miRNA.Type <- 'Novel'
-annot_row <- data.frame(dt.miRNA.annot, row.names = 1)
-colors.miRNA <- c('#EDA4B5', '#701473')
-names(colors.miRNA) <- c('Novel', 'Known')
-
-annot_col <- data.frame(dt.meta[,.(ID.sample,Sex,Age,Organ)],row.names=1)
+annot_col <- data.frame(dt.meta[,.(Colnames.miRNA,Sex,Age,Organ)],row.names=1)
 annot_color <- list(Sex = color.sex,
                     Age=colors.age,
-                    Organ=colors.organ,
-                    miRNA.Type = colors.miRNA)
+                    Organ=colors.organ)
 
 summary(as.numeric(apply(exprMat.forHCA,1,function(x)(x-mean(x))/sd(x))))
 
@@ -37,7 +27,6 @@ p <- pheatmap(exprMat.forHCA,
                   breaks = c(seq(-17,-3,0.5),
                              seq(-2.9,2.9,0.1),
                              seq(3,17,0.5)),
-         annotation_row = annot_row,
                   annotation_col = annot_col, annotation_colors = annot_color,
                   annotation_names_col=FALSE,
          filename = './charts/Fig4e_HCA.pdf', width = 10 ,height = 7)

@@ -3,7 +3,7 @@ library(data.table)
 library(ggplot2)
 source("./scripts/Functions/Function.Calc.PVCA.R")
 dt.meta <- readRDS('./RDS/metadata.rds')
-exprMat.miRNA <- readRDS('./RDS/exprMat/exprMat_logCPM_r994c318.rds')
+exprMat.miRNA <- readRDS('./RDS/exprMat/exprMat_logCPM_r604c318.rds')
 exprMat.mRNA <- readRDS('./RDS/exprMat/exprMat_mRNA_log2FPKM.rds')
 
 
@@ -57,3 +57,4 @@ ggsave('./charts/Fig6a_PVCA.pdf',width=12,height=6.5)
 
 
 pvca.combine.dcast <- dcast(pvca.combine, Stage~Type, value.var = 'Perc.effect')
+

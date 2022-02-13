@@ -1,7 +1,7 @@
 rm(list = ls())
 
 source('./scripts/PlotFigures/parameters.R')
-source('./scripts/library.R')
+# source('./scripts/library.R')
 library(pheatmap)
 dt.meta <- readRDS('./RDS/metadata.rds')
 exprMat.Valid <- readRDS('./RDS/exprMat/exprmat_ValidationSet.rds')
@@ -51,6 +51,6 @@ pheatmap(exprMat.Valid.forHeatmap,
          annotation_names_col=TRUE,
          fontsize_col=12,
          labels_col = labels.col,
-         border_color = F)
+         border_color = F,
          filename = './charts/Fig5b.Heatmap_OrganEnriched_Validation.pdf', height = 8, width = 20)
 
